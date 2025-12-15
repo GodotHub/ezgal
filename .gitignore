@@ -1,5 +1,24 @@
+# ezgal specific ignores
 make/bin
 make/obj
 make/make.exe
 make/make
 .obsidian/
+
+# Godot 4+ specific ignores
+ezgal/.godot/
+ezgal/.nomedia
+
+# Godot-specific ignores
+ezgal/.import/
+ezgal/export.cfg
+ezgal/export_credentials.cfg
+*.tmp
+
+# Godot Imported translations (automatically generated from CSV files)
+*.translation
+
+# Godot Mono-specific ignores
+ezgal/.mono/
+ezgal/data_*/
+ezgal/mono_crash.*.json
