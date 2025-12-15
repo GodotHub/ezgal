@@ -1,2 +1,0 @@
-﻿46335
-/home/root_cn/work/godot/godot/Godot_v4.5.1-stable_mono_linux.x86_64

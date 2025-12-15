@@ -1,8 +1,9 @@
 <div align="center" style="display:grid;place-items:center;">
-<p>
-    <a href="https://gitee.com/cryingn/ezgal" target="_blank"><img width="180" src="./ezgal/image/icon.png" alt="ezgal logo"></a>
-<h1>ezgal</h1>
-</p>
+	<p>
+	    <a href="https://gitee.com/cryingn/ezgal" target="_blank"><img width="180" src="./ezgal/image/icon.png" alt="ezgal logo"></a>
+	<h1>ezgal</h1>
+	</p>
+	<img src="https://gitcode.com/godothub/ezgal/star/badge.svg?style=flat-square">
 </div>
 
 
@@ -21,7 +22,7 @@
 |---|---|---|
 |godotバージョン|Godot4（継続的な互換性を考慮）|cryingn|
 |開発言語|C#（net8.0以上のバージョン）|cryingn|
-|開発モード|2種類の開発モードをサポート：[深層組み込み](#深層組み込み）は1つのファイルにパッケージ化しやすく、より多くの機能を開発し、[低コード開発](#低コード開発）はインターフェースを通じて直接コンパイルファイルを開発プログラムとして書き込むことができる|cryingn|
+|開発モード|2種類の開発モードをサポート：[深層組み込み](#深層組み込み)は1つのファイルにパッケージ化しやすく、より多くの機能を開発し、[低コード開発](#低コード開発)はインターフェースを通じて直接コンパイルファイルを開発プログラムとして書き込むことができる|cryingn|
 |ezgalインタプリタ|シナリオファイルをjson形式に解釈し、段落ごとに読み取る|cryingn|
 |シナリオ文法|シナリオの執筆と演出を分離しやすくするために、ezgalがサポートする文法はセリフとシナリオ演出を高度に区分している|cryingn|
 |シナリオ言語|中国語（短期間で中/英語法をサポートし、将来はカスタムスクリプト言語をサポートする予定）|cryingn|
