@@ -32,7 +32,13 @@ We initially implemented the **godot-ezgal** framework for Godot3 in November 20
 Clone the source code into your project and import the **ezgal** folder into Godot:
 
 ```bash
-git clone https://github.com/godothub/ezgal
+git clone https://atomgit.com/godothub/ezgal
+cd ezgal/ezgal
+```
+or
+
+```bash
+git clone https://gitee.com/godothub/ezgal.git
 cd ezgal/ezgal
 ```
 
