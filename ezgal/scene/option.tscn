@@ -1,14 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://ci5e0tfgbu7xx"]
 
 [ext_resource type="Theme" uid="uid://dps3t0y1voqpb" path="res://theme/game.tres" id="1_jx2e8"]
-[ext_resource type="Script" uid="uid://bgc5wtcm2uo6v" path="res://code/Option.cs" id="2_v3e84"]
+[ext_resource type="Script" uid="uid://bgc5wtcm2uo6v" path="res://csharp/Options/Option.cs" id="2_v3e84"]
 
-[node name="option" type="Button"]
+[node name="option" type="Button" node_paths=PackedStringArray("_optionNode")]
 offset_right = 266.0
 offset_bottom = 52.0
 size_flags_horizontal = 4
 theme = ExtResource("1_jx2e8")
-text = "测试-test"
 script = ExtResource("2_v3e84")
-
-[connection signal="pressed" from="." to="." method="_on_pressed"]
+_optionNode = NodePath(".")

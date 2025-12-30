@@ -2,13 +2,13 @@
 
 [ext_resource type="Theme" uid="uid://dps3t0y1voqpb" path="res://theme/game.tres" id="1_jym3g"]
 [ext_resource type="Shader" uid="uid://cexnww82tk1rr" path="res://shader/底栏.gdshader" id="1_pnh6y"]
-[ext_resource type="Script" uid="uid://bsgd1hoi4o51c" path="res://code/Bottom.cs" id="2_vj1xx"]
+[ext_resource type="Script" uid="uid://bsgd1hoi4o51c" path="res://csharp/Game/Bottom.cs" id="2_vj1xx"]
 [ext_resource type="PackedScene" uid="uid://c6f15wney1tmd" path="res://scene/dictionary.tscn" id="4_gssey"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bvesk"]
 shader = ExtResource("1_pnh6y")
 
-[node name="Bottom" type="Control" node_paths=PackedStringArray("dialog", "text", "name")]
+[node name="Bottom" type="Control" node_paths=PackedStringArray("dialog", "text", "name", "DictionaryScene")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1536.0
@@ -18,6 +18,7 @@ script = ExtResource("2_vj1xx")
 dialog = NodePath("Dialog")
 text = NodePath("Text")
 name = NodePath("Name")
+DictionaryScene = NodePath("Dictionary")
 metadata/_edit_vertical_guides_ = [1536.0, 51.0, 1476.0]
 metadata/_edit_horizontal_guides_ = [636.0, 826.0]
 

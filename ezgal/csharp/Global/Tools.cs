@@ -1,11 +1,19 @@
 using Godot;
 using System;
+using System.Text.RegularExpressions;
 
 public partial class Tools : Node
 {
-	// path = "background/start_texture", sprite = start_texture
-	public static void set_texture(Sprite2D sprite, string path)
+	/// <summary>
+	/// Why avoid `expand_mode` for image scaling:
+	/// Godot lacks native support for dynamically selecting the stretching axis. Using built-in modes may cause 
+	/// Aspect ratio distortion
+	/// or
+	/// Imbalanced scaling
+	/// </summary> 
+	public static void SetTexture(Sprite2D sprite, string path)
 	{
+		// path = "background/start_texture", sprite = start_texture
 		var texture = ResourceLoader.Load($"./image/{path}.png") as Texture2D
 			?? ResourceLoader.Load($"./image/{path}.jpg") as Texture2D;
 		if (texture == null)
@@ -28,6 +36,7 @@ public partial class Tools : Node
 		}
 	}
 
+	/*
 	public static void SetTexture(TextureRect textureRect, string path)
 	{
 		var texture = ResourceLoader.Load($"./image/{path}.png") as Texture2D
@@ -42,4 +51,13 @@ public partial class Tools : Node
 			textureRect.Texture = texture;
 		}
 	}
+	*/
+
+	// todo: only remove like "[url]" & "[/url]", while [example] will not remove.
+	public static string RemoveBBCode(string input)
+    	{
+
+        return Regex.Replace(input, @"\[\/?[^\]]+\]", "");
+
+    	}
 }

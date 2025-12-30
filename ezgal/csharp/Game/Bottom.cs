@@ -5,12 +5,13 @@ public partial class Bottom : Control
 {
 	Tween tween;
 	[Export]
-	ColorRect dialog;
+	ColorRect dialog { get; set; }
 	[Export]
-	RichTextLabel text;
+	RichTextLabel text { get; set; }
 	[Export]
-	Label name;
-	Dictionary dic_node;
+	Label name { get; set; }
+	[Export]
+	Dictionary DictionaryScene { get; set; }
 
 	[Signal]
 	public delegate void StartGameEventHandler();
@@ -44,7 +45,7 @@ public partial class Bottom : Control
 		text.Text = $"{text_data} »";
 		text.VisibleRatio = 0.0f;
 		tween = GetTree().CreateTween();
-		tween.TweenProperty(text, "visible_ratio", 1.0f, text_data.Length * Global.text_speed);
+		tween.TweenProperty(text, "visible_ratio", 1.0f, Tools.RemoveBBCode(text_data).Length * Global.text_speed);
 	}
 
 	// 添加角色名
@@ -95,6 +96,6 @@ public partial class Bottom : Control
 	// 跳转到专业词汇文本事件
 	public void _on_text_meta_clicked(Variant meta)
 	{
-		Global.LoadDictionary(dic_node, meta);
+		Global.LoadDictionary(DictionaryScene, meta);
 	}
 }

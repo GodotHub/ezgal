@@ -3,7 +3,9 @@ make/bin
 make/obj
 make/Make.exe
 make/Make
-.obsidian/
+make/make.sln
+bin/
+test/
 
 # Godot 4+ specific ignores
 ezgal/.godot/
@@ -22,3 +24,12 @@ ezgal/export_credentials.cfg
 ezgal/.mono/
 ezgal/data_*/
 ezgal/mono_crash.*.json
+
+# Special file ignores
+.obsidian/
+ezgal/.idea/
+ezgal/.vscode/
+ezgal/libaries/
+
+
+

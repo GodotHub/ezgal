@@ -21,9 +21,9 @@ config/icon="res://image/icon.png"
 
 [autoload]
 
-FlowData="*res://code/FlowData.cs"
-Global="*res://code/Global.cs"
-Tools="*res://code/Tools.cs"
+FlowData="*res://csharp/Global/FlowData.cs"
+Global="*res://csharp/Global/Global.cs"
+Tools="*res://csharp/Global/Tools.cs"
 
 [display]
 

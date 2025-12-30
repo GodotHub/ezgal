@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://b76hqjcnewbyk"]
+[gd_scene load_steps=4 format=3 uid="uid://b76hqjcnewbyk"]
 
-[ext_resource type="Script" uid="uid://bkwj63bcyjfd3" path="res://code/Options.cs" id="1_jx2e8"]
+[ext_resource type="Script" uid="uid://bkwj63bcyjfd3" path="res://csharp/Options/Options.cs" id="1_jx2e8"]
 [ext_resource type="Theme" uid="uid://dps3t0y1voqpb" path="res://theme/game.tres" id="1_lcy60"]
+[ext_resource type="PackedScene" uid="uid://ci5e0tfgbu7xx" path="res://scene/option.tscn" id="3_6kqe7"]
 
 [node name="options" type="Control"]
 layout_mode = 3
@@ -10,3 +11,4 @@ offset_right = 1536.0
 offset_bottom = 864.0
 theme = ExtResource("1_lcy60")
 script = ExtResource("1_jx2e8")
+_optionScene = ExtResource("3_6kqe7")

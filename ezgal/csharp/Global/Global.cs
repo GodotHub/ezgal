@@ -35,7 +35,7 @@ public partial class Global : Node
 	public struct Flow
 	{
 		// 节点类型
-   		public string type;
+		public string type;
 		// 文本信息/参数
 		public string text;
 		// 说话对象
@@ -74,24 +74,29 @@ public partial class Global : Node
 		datas = RunFile("start.txt");
 	}
 
-	// 实在排查不明白时方便打印结构体
-	public static void Print(Flow new_data)
-	{
-		GD.Print($"Round ptr:{intptr}");
-		GD.Print($"type		:{new_data.type}");
-		GD.Print($"text		:{new_data.text}");
-		GD.Print($"name		:{new_data.name}");
-		GD.Print($"script	:{new_data.script}");
-		GD.Print($"jump		:{new_data.jump}");
-		GD.Print($"jptr		:{new_data.jptr}");
-		GD.Print($"Anima:");
-		GD.Print($"type		:{new_data.anima.type}");
-		GD.Print($"name		:{new_data.anima.name}");
-		GD.Print($"position	:{new_data.anima.position}");
-		GD.Print($"scale	:{new_data.anima.scale}");
-		GD.Print($"state	:{new_data.anima.state}");
-		GD.Print("----------------------");
-	}
+	/*
+	 * 这是检查代码用的，别改了，敲你喵！
+	 * This is for code inspection. Don't modify it, damn it!
+	 * これはコードチェック用なんだから、変更しないでくれよ、クソが！
+	 *
+	 public static void print(Flow new_data)
+	 {
+	 GD.Print($"Round ptr:{intptr}");
+	 GD.Print($"type		:{new_data.type}");
+	 GD.Print($"text		:{new_data.text}");
+	 GD.Print($"name		:{new_data.name}");
+	 GD.Print($"script	:{new_data.script}");
+	 GD.Print($"jump		:{new_data.jump}");
+	 GD.Print($"jptr		:{new_data.jptr}");
+	 GD.Print($"Anima:");
+	 GD.Print($"type		:{new_data.anima.type}");
+	 GD.Print($"name		:{new_data.anima.name}");
+	 GD.Print($"position	:{new_data.anima.position}");
+	 GD.Print($"scale	:{new_data.anima.scale}");
+	 GD.Print($"state	:{new_data.anima.state}");
+	 GD.Print("----------------------");
+	 }
+	 */
 
 	public static bool IsEmpty<T>(T structure) where T : struct
 	{
@@ -104,14 +109,48 @@ public partial class Global : Node
 		if (FlowData.flowdata.Count == 0)
 		{
 			try {
-				return ReadFile(path);
+				return ReadFile($"./script/{path}");
 			}
 			catch
 			{
+				GD.PrintErr($"Not found Path: ./script/{path}");
 				return new List<Flow>();
 			}
 		}
 		return FlowData.flowdata.FirstOrDefault(x => x.file == path).data;
+	}
+
+	public static void LoadDictionary(Dictionary dictionaryScene, Variant fileName)
+	{
+		dictionaryScene.Show();
+		dictionaryScene.SetSelf(dictionaryScene);
+		if (FlowData.dicdata.Count == 0)
+		{
+			try
+			{
+				using (StreamReader reader = new StreamReader($"./dictionary/{fileName}.txt"))
+				{
+					string textdata = reader.ReadToEnd();
+					dictionaryScene.TextNode.Text = textdata;
+				}
+			}
+			catch
+			{
+				dictionaryScene.TextNode.Text = "无法加载字典内容";
+			}
+		}
+		else
+		{
+			try
+			{
+				string textdata = FlowData.dicdata.FirstOrDefault(x => x.file == $"{fileName}.txt").data;
+				dictionaryScene.TextNode.Text = textdata;
+			}
+			catch
+			{
+				dictionaryScene.TextNode.Text = "无法加载字典内容";
+			}
+		}
 	}
 
 	// 读取文本文档转义为json格式.
@@ -119,13 +158,13 @@ public partial class Global : Node
 	{
 		read_file_name = path;
 		flow_line = new Flow{};
-		using (StreamReader reader = new StreamReader($"./script/{path}"))
+		using (StreamReader reader = new StreamReader(path))
 		{
 			new_datas = new List<Flow>();
 			while ((line = reader.ReadLine()) != null)
 			{
 				line = line.Trim();
-				if  (flow_line.type != FlowData.option)
+				if  (flow_line.type != FlowData.options)
 				{
 					flow_line = new Flow{};
 				}
@@ -143,7 +182,7 @@ public partial class Global : Node
 						line += reader.ReadLine();
 					}
 
-					if (flow_line.type == FlowData.option)
+					if (flow_line.type == FlowData.options)
 					{
 						set_option.Add(line);
 					}
@@ -161,12 +200,12 @@ public partial class Global : Node
 						}
 					}
 				}
-				else if (flow_line.type == FlowData.option) 
+				else if (flow_line.type == FlowData.options) 
 				{
 					set_option.Add(line);
 				}
 
-				if (flow_line.type != FlowData.option) 
+				if (flow_line.type != FlowData.options) 
 				{
 					// 处理对话部分
 					if (line.Contains(":"))
@@ -203,13 +242,13 @@ public partial class Global : Node
 					// 背景设置
 					case "bg":
 						new_datas.Add(
-							new Flow{
+								new Flow{
 								type = FlowData.background,
 								text = sets[1],
-							}
-						);
+								}
+							     );
 						break;
-					// 特效设置
+						// 特效设置
 					case "ef":
 						break;
 					case "script":
@@ -250,7 +289,7 @@ public partial class Global : Node
 						option_flow_line.type = FlowData.background;
 						option_flow_line.text = sets[1];
 						break;
-					// 特效设置
+						// 特效设置
 					case "ef":
 						break;
 					case "script":
@@ -292,13 +331,13 @@ public partial class Global : Node
 	static string AnalyzeSymbols(string line, StreamReader reader)
 	{
 		while (line != null && 
-			(line.Trim() == "" || line.StartsWith("'''") || line.StartsWith("#") || line.StartsWith("[") || line.StartsWith("@"))
-		)
+				(line.Trim() == "" || line.StartsWith("'''") || line.StartsWith("#") || line.StartsWith("[") || line.StartsWith("@"))
+		      )
 		{
 			// 处理中括号部分
 			if (line.StartsWith("["))
 			{
-				if (flow_line.type == FlowData.option)
+				if (flow_line.type == FlowData.options)
 				{
 					flow_line.option = set_option;
 					new_datas.Add(flow_line);
@@ -306,7 +345,7 @@ public partial class Global : Node
 				}
 				match = Regex.Match(line,  @"\[([^\]]*)\]");
 				flow_line.type = match.Groups[1].Value;
-				if (flow_line.type == FlowData.option)
+				if (flow_line.type == FlowData.options)
 				{
 					set_option = new List<string>();
 				}
@@ -350,36 +389,5 @@ public partial class Global : Node
 		return anima;
 	}
 
-	public static void LoadDictionary(Dictionary dic_node, Variant file_name)
-	{
-		dic_node.Show();
-		dic_node.self = dic_node;
-		if (FlowData.dicdata.Count == 0)
-		{
-			try
-			{
-				using (StreamReader reader = new StreamReader($"./dictionary/{file_name}.txt"))
-				{
-					string textdata = reader.ReadToEnd();
-					dic_node.Text.Text = textdata;
-				}
-			}
-			catch
-			{
-				dic_node.Text.Text = "无法加载字典内容";
-			}
-		}
-		else
-		{
-			try
-			{
-				string textdata = FlowData.dicdata.FirstOrDefault(x => x.file == $"{file_name}.txt").data;
-				dic_node.Text.Text = textdata;
-			}
-			catch
-			{
-				dic_node.Text.Text = "无法加载字典内容";
-			}
-		}
-	}
+	
 }

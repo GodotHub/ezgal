@@ -6,33 +6,33 @@ public partial class Game : Control
 {
 	// 背景图片
 	[Export]
-	public TextureRect Background { get; set; }
+	private Sprite2D _backgroundNode;
 	// 对话框文本
 	[Export]
-	public Bottom Bottom { get; set; }
+	private Bottom BottomScene;
 	// 全屏对话文本
 	[Export]
-	public Font Font { get; set; }
+	private Font FontScene;
 	// 设置选项节点
 	[Export]
-	public Options Options { get; set; }
+	private Options OptionsScene;
 	[Export(PropertyHint.FilePath)]
 	public string EndScenePath { get; set; }
 	// 剧情数据
 	public List<Global.Flow> Datas { get; set; }
 	// 立绘状态控制字典
-	private Dictionary<string, Sprite2D> dicNode = new Dictionary<string, Sprite2D>();
-
+	private Dictionary<string, Sprite2D> _dicNode;
 
 	public override void _Ready()
 	{
+		_dicNode = new Dictionary<string, Sprite2D>();
 		Datas = new List<Global.Flow>();
 		Datas.AddRange(Global.datas);
 		Run();
 	}
 
 	// 设置背景图片
-	private void InitBackground(string path)
+	private void SetBackground(string path)
 	{
 		var texture = ResourceLoader.Load($"./image/background/{path}") as Texture2D;
 		if (texture == null)
@@ -41,8 +41,19 @@ public partial class Game : Control
 		}
 		else
 		{
-			Background.Texture = texture;
+			_backgroundNode.Texture = texture;
+			float width = (float)Global.window_width / (float)texture.GetWidth();
+			float height = (float)Global.window_height / (float)texture.GetHeight();
+			if (height > width)
+			{
+				_backgroundNode.Scale = new Vector2(height, height);
+			}
+			else
+			{
+				_backgroundNode.Scale = new Vector2(width, width);
+			}
 		}
+
 	}
 
 	public void End()
@@ -86,7 +97,7 @@ public partial class Game : Control
 		{
 			case FlowData.background:
 				// 设置背景图片
-				InitBackground(data.text);
+				SetBackground(data.text);
 				Global.intptr++;
 				Run();
 				break;
@@ -95,13 +106,13 @@ public partial class Game : Control
 				Global.typeptr = data.type;
 				if (is_first)
 				{
-					Font._hide();
-					Bottom.Show();
+					FontScene.Hide();
+					BottomScene.Show();
 				}
-				Bottom.SetText(data.text);
+				BottomScene.SetText(data.text);
 				if (data.name != null)
 				{
-					Bottom.SetName(data.name);
+					BottomScene.SetName(data.name);
 				}
 				if (data.anima.type != null)
 				{
@@ -114,13 +125,13 @@ public partial class Game : Control
 				Global.typeptr = data.type;
 				if (is_first)
 				{
-					Font._show();
-					Bottom.Hide();
-					Font.SetText(data.text, false);
+					FontScene.Show();
+					BottomScene.Hide();
+					FontScene.SetText(data.text, false);
 				}
 				else
 				{
-					Font.SetText(data.text, true);
+					FontScene.SetText(data.text, true);
 				}
 				if (data.anima.type != null)
 				{
@@ -129,9 +140,9 @@ public partial class Game : Control
 				Global.intptr++;
 				break;
 			case FlowData.options:
-				Font._hide();
-				Bottom.Hide();
-				Options.SetOption(data.option);
+				FontScene.Hide();
+				BottomScene.Hide();
+				OptionsScene.SetOption(data.option);
 				break;
 			case FlowData.option:
 				Global.intptr++;
@@ -197,7 +208,7 @@ public partial class Game : Control
 	{
 		//DicNode.Add("Node1Key", node1);
 		Sprite2D node;
-		if (dicNode.TryGetValue("Node1Key", out node))
+		if (_dicNode.TryGetValue("Node1Key", out node))
 		{
 			node.Texture = (Texture2D)ResourceLoader.Load($"res://image/{anima.type}/{anima.name}");
 			node.Position = anima.position;
@@ -222,7 +233,7 @@ public partial class Game : Control
 			}
 			node.Position = anima.position;
 			node.Scale = new Vector2(anima.scale, anima.scale);
-			dicNode.Add(anima.type, node);
+			_dicNode.Add(anima.type, node);
 		}
 
 	}

@@ -1,7 +1,6 @@
 <Project Sdk="Godot.NET.Sdk/4.5.1">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <CodeAnalysisRuleSet>d:\Godot\ezgal\ezgal\.vscode\ruleset.xml</CodeAnalysisRuleSet>
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
 </Project>

@@ -1,9 +1,9 @@
 [gd_scene load_steps=13 format=3 uid="uid://cp6isjvvcti2v"]
 
-[ext_resource type="Script" uid="uid://k3k88k0t7x1x" path="res://code/Main.cs" id="1_pum5v"]
-[ext_resource type="Script" uid="uid://c26x1ci4nqppy" path="res://code/Start.cs" id="2_ik5t3"]
+[ext_resource type="Script" uid="uid://k3k88k0t7x1x" path="res://csharp/Main/Main.cs" id="1_pum5v"]
 [ext_resource type="Shader" uid="uid://ba5gn7qufqwws" path="res://shader/闪烁.gdshader" id="3_lrosg"]
 [ext_resource type="Theme" uid="uid://bagh4xaumjcdf" path="res://theme/UI.tres" id="4_3mxyr"]
+[ext_resource type="Script" uid="uid://d211kkumcomlp" path="res://csharp/Main/MainControl.cs" id="5_b5f6u"]
 [ext_resource type="Shader" uid="uid://b54gxaaosth46" path="res://shader/侧栏.gdshader" id="5_vil18"]
 [ext_resource type="FontFile" uid="uid://d4gysf3i5py7b" path="res://font/ChironGoRoundTC-350N.ttf" id="7_qymjl"]
 [ext_resource type="Texture2D" uid="uid://8ox5mx3dysiv" path="res://image/particle.png" id="8_h10yh"]
@@ -23,12 +23,15 @@ shader_parameter/max_alpha = 1.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8wlu8"]
 shader = ExtResource("5_vil18")
 
-[node name="Main" type="Node2D" node_paths=PackedStringArray("Sounds", "StartTexture")]
+[node name="Main" type="Node2D" node_paths=PackedStringArray("_startTextureNode", "_sounds", "_boxContainer")]
 script = ExtResource("1_pum5v")
-Sounds = NodePath("Sounds")
-StartTexture = NodePath("CanvasLayer/StartTexture")
-GameScenePath = "res://scene/game.tscn"
+_startTextureNode = NodePath("StartTexture")
+_sounds = NodePath("Sounds")
+_boxContainer = NodePath("Menu/BoxContainer")
 metadata/_edit_vertical_guides_ = [768.0]
+
+[node name="StartTexture" type="Sprite2D" parent="."]
+centered = false
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 modulate = Color(1, 0.870588, 1, 1)
@@ -51,16 +54,16 @@ max_polyphony = 2
 stream = ExtResource("10_p7wv6")
 max_polyphony = 2
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="MainControl" type="CanvasLayer" parent="." node_paths=PackedStringArray("_gameStartNode", "_dictionaryNode", "_exitNode", "Menu", "_start")]
+script = ExtResource("5_b5f6u")
+_gameStartNode = NodePath("../Menu/BoxContainer/GameStart")
+_dictionaryNode = NodePath("../Menu/BoxContainer/Dictionary")
+_exitNode = NodePath("../Menu/BoxContainer/Exit")
+GameScenePath = "res://scene/game.tscn"
+Menu = NodePath("../Menu")
+_start = NodePath("Start")
 
-[node name="StartTexture" type="TextureRect" parent="CanvasLayer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Start" type="Label" parent="CanvasLayer" node_paths=PackedStringArray("Menu")]
+[node name="Start" type="Label" parent="MainControl"]
 material = SubResource("ShaderMaterial_wb1fm")
 offset_left = 653.0
 offset_top = 728.0
@@ -69,16 +72,14 @@ offset_bottom = 762.0
 theme = ExtResource("4_3mxyr")
 theme_override_colors/font_color = Color(0.723987, 0.309227, 0.51972, 1)
 text = "-按下任意键开始游戏-"
-script = ExtResource("2_ik5t3")
-Menu = NodePath("../Menu")
 
-[node name="Title" type="Control" parent="CanvasLayer"]
+[node name="Title" type="Control" parent="MainControl"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Title" type="Label" parent="CanvasLayer/Title"]
+[node name="Title" type="Label" parent="MainControl/Title"]
 layout_mode = 0
 offset_left = 167.0
 offset_top = 222.0
@@ -92,7 +93,7 @@ theme_override_font_sizes/font_size = 100
 text = "EZGal"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="CanvasLayer/Title"]
+[node name="Subtitle" type="Label" parent="MainControl/Title"]
 layout_mode = 0
 offset_left = 476.0
 offset_top = 344.0
@@ -106,14 +107,14 @@ theme_override_font_sizes/font_size = 30
 text = "文字冒险游戏模拟器"
 horizontal_alignment = 1
 
-[node name="Menu" type="ColorRect" parent="CanvasLayer"]
+[node name="Menu" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_8wlu8")
 offset_left = -500.0
 offset_right = -75.0
 offset_bottom = 864.0
 color = Color(0.702664, 0.167244, 0.59989, 1)
 
-[node name="BoxContainer" type="BoxContainer" parent="CanvasLayer/Menu"]
+[node name="BoxContainer" type="BoxContainer" parent="Menu"]
 layout_mode = 0
 offset_left = 125.0
 offset_top = 96.0
@@ -123,30 +124,24 @@ theme = ExtResource("4_3mxyr")
 theme_override_constants/separation = 60
 vertical = true
 
-[node name="GameStarter" type="Button" parent="CanvasLayer/Menu/BoxContainer"]
+[node name="GameStart" type="Button" parent="Menu/BoxContainer"]
 layout_mode = 2
 text = "开始游戏"
 
-[node name="FileReader" type="Button" parent="CanvasLayer/Menu/BoxContainer"]
+[node name="LoadGame" type="Button" parent="Menu/BoxContainer"]
 layout_mode = 2
 text = "读取存档"
 
-[node name="Dictionary" type="Button" parent="CanvasLayer/Menu/BoxContainer"]
+[node name="Dictionary" type="Button" parent="Menu/BoxContainer"]
 layout_mode = 2
-text = "字        典"
+text = "字	         典"
 
-[node name="Config" type="Button" parent="CanvasLayer/Menu/BoxContainer"]
+[node name="Config" type="Button" parent="Menu/BoxContainer"]
 layout_mode = 2
 text = "设        置"
 
-[node name="Exit" type="Button" parent="CanvasLayer/Menu/BoxContainer"]
+[node name="Exit" type="Button" parent="Menu/BoxContainer"]
 layout_mode = 2
 size_flags_vertical = 10
 theme = ExtResource("4_3mxyr")
 text = "退出游戏"
-
-[connection signal="mouse_entered" from="CanvasLayer/Menu/BoxContainer" to="." method="_on_box_container_mouse_entered"]
-[connection signal="pressed" from="CanvasLayer/Menu/BoxContainer/GameStarter" to="." method="_on_game_start_pressed"]
-[connection signal="pressed" from="CanvasLayer/Menu/BoxContainer/Dictionary" to="." method="_on_dictionary_pressed"]
-[connection signal="mouse_entered" from="CanvasLayer/Menu/BoxContainer/Exit" to="." method="_on_exit_mouse_entered"]
-[connection signal="pressed" from="CanvasLayer/Menu/BoxContainer/Exit" to="." method="_on_exit_pressed"]

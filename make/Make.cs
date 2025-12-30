@@ -11,7 +11,7 @@ public class Make
 	// 读取字典地址
 	public static string dict_file_path = "./ezgal/dictionary";
 	// 代码存储地址
-	public static string save_file_path = "./ezgal/code/FlowData.cs";
+	public static string save_file_path = "./ezgal/csharp/Global/FlowData.cs";
 	// 程序控制文本
 	public static List<Flow> datas;
 	// 当前文本名称
@@ -238,7 +238,7 @@ public class Make
 		return_file_data += "\t\tnew FileData{\n";
 		return_file_data += $"\t\t\tfile = $34${Path.GetFileName(file)}$34$,\n";
 		return_file_data += "\t\t\tdata = new List<Global.Flow>{\n";
-		foreach (Flow flow in read_file(file))
+		foreach (Flow flow in ReadFile(file))
 		{
 			return_file_data += print_flow(flow);
 		}
@@ -318,241 +318,239 @@ public class Make
 		return return_file_data;
 	}
 
-	public static List<Flow> read_file(string path)
-	{
-		read_file_name = path;
-		flow_line = new Flow { };
-		using (StreamReader reader = new StreamReader(path))
-		{
-			new_datas = new List<Flow>();
-			while ((line = reader.ReadLine()) != null)
-			{
-				line = line.Trim();
-				if (flow_line.type != FlowData.option)
-				{
-					flow_line = new Flow { };
-				}
-				// 处理空行与中括号部分
-				line = analyze_symbols(line, reader);
-				if (end_line())
-				{
-					return new_datas;
-				}
+        // 读取文本文档转义为json格式.
+        static List<Flow> ReadFile(string path)
+        {
+                read_file_name = path;
+                flow_line = new Flow{};
+                using (StreamReader reader = new StreamReader(path))
+                {
+                        new_datas = new List<Flow>();
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                                line = line.Trim();
+                                if  (flow_line.type != FlowData.options)
+                                {
+                                        flow_line = new Flow{};
+                                }
+                                // 处理空行与中括号部分
+                                line = AnalyzeSymbols(line, reader);
+                                if (EndLine())
+                                {
+                                        return new_datas;
+                                }
 
-				// 处理大括号部分
-				if (line.StartsWith("{"))
-				{
-					while (!line.Contains("}"))
-					{
-						line += reader.ReadLine();
-					}
+                                // 处理大括号部分
+                                if (line.StartsWith("{"))
+                                {
+                                        while (!line.Contains("}")) {
+                                                line += reader.ReadLine();
+                                        }
 
-					if (flow_line.type == FlowData.option)
-					{
-						set_option.Add(line);
-					}
-					else
-					{
-						flow_line = set_braces_func1(line, new_datas, flow_line);
-					}
-					line = line.Split("}")[1].Trim();
-					if (line == "")
-					{
-						line = analyze_symbols(line, reader);
-						if (end_line())
-						{
-							return new_datas;
-						}
-					}
-				}
-				else if (flow_line.type == FlowData.option)
-				{
-					set_option.Add(line);
-				}
+                                        if (flow_line.type == FlowData.options)
+                                        {
+                                                set_option.Add(line);
+                                        }
+                                        else
+                                        {
+                                                flow_line = SetBracesFunc1(line, new_datas, flow_line);
+                                        }
+                                        line = line.Split("}")[1].Trim();
+                                        if (line == "")
+                                        {
+                                                line = AnalyzeSymbols(line, reader);
+                                                if (EndLine())
+                                                {
+                                                        return new_datas;
+                                                }
+                                        }
+                                }
+                                else if (flow_line.type == FlowData.options) 
+                                {
+                                        set_option.Add(line);
+                                }
 
-				if (flow_line.type != FlowData.option)
-				{
-					// 处理对话部分
-					if (line.Contains(":"))
-					{
-						string[] parts = line.Split(':');
-						flow_line.name = parts[0].Trim();
-						flow_line.text = parts[1].Trim();
-					}
-					else
-					{
-						flow_line.text = line;
-					}
-					new_datas.Add(flow_line);
-				}
-			}
-			end_line();
-		}
-		return new_datas;
-	}
+                                if (flow_line.type != FlowData.options) 
+                                {
+                                        // 处理对话部分
+                                        if (line.Contains(":"))
+                                        {
+                                                string[] parts = line.Split(':');
+                                                flow_line.name = parts[0].Trim();
+                                                flow_line.text = parts[1].Trim();
+                                        }
+                                        else
+                                        {
+                                                flow_line.text = line;
+                                        }
+                                        new_datas.Add(flow_line);
+                                }
+                        }
+                        EndLine();
+                }
+                return new_datas;
+        }
 
-	// 包含大括号的字段分析
-	static Flow set_braces_func1(string line, List<Flow> new_datas, Flow flow_line)
-	{
-		// 去掉括号
-		match = Regex.Match(line, @"\{([^}]+)\}");
-		if (match.Success)
-		{
-			string set_line = match.Groups[1].Value;
-			foreach (string set in set_line.Split(','))
-			{
-				string[] sets = set.Split(':');
-				switch (sets[0].Trim())
-				{
-					// 背景设置
-					case "bg":
-						new_datas.Add(
-								new Flow
-								{
-									type = FlowData.background,
-									text = sets[1],
-								}
-						);
-						break;
-					// 特效设置
-					case "ef":
-						break;
-					case "script":
-						Flow script_flow = new_datas[new_datas.Count - 1];
-						script_flow.script = sets[1];
-						new_datas[new_datas.Count - 1] = script_flow;
-						break;
-					case "jump":
-						Flow jump_flow = new_datas[new_datas.Count - 1];
-						jump_flow.jump = sets[1];
-						new_datas[new_datas.Count - 1] = jump_flow;
-						break;
-					default:
-						flow_line.anima = analyze_anima(sets);
-						break;
-				}
-			}
-		}
-		return flow_line;
-	}
+        // 包含大括号的字段分析
+        static Flow SetBracesFunc1(string line, List<Flow> new_datas, Flow flow_line)
+        {
+                // 去掉括号
+                match = Regex.Match(line, @"\{([^}]+)\}");
+                if (match.Success)
+                {
+                        string set_line = match.Groups[1].Value;
+                        foreach (string set in set_line.Split(','))
+                        {
+                                string[] sets = set.Split(':');
+                                switch (sets[0].Trim())
+                                {
+                                        // 背景设置
+                                        case "bg":
+                                                new_datas.Add(
+                                                                new Flow{
+                                                                type = FlowData.background,
+                                                                text = sets[1],
+                                                                }
+                                                             );
+                                                break;
+                                                // 特效设置
+                                        case "ef":
+                                                break;
+                                        case "script":
+                                                Flow script_flow = new_datas[new_datas.Count - 1];
+                                                script_flow.script = sets[1];
+                                                new_datas[new_datas.Count - 1] = script_flow;
+                                                break;
+                                        case "jump":
+                                                Flow jump_flow = new_datas[new_datas.Count - 1];
+                                                jump_flow.jump = sets[1];
+                                                new_datas[new_datas.Count - 1] = jump_flow;
+                                                break;
+                                        default:
+                                                flow_line.anima = AnalyzeAnima(sets);
+                                                break;
+                                }
+                        }
+                }
+                return flow_line;
+        }
 
-	// option中处理包含大括号的字段
-	public static Flow set_braces_func2(string line)
-	{
-		// 去掉括号
-		Flow option_flow_line = new Flow { };
-		match = Regex.Match(line, @"\{([^}]+)\}");
-		if (match.Success)
-		{
-			string set_line = match.Groups[1].Value;
-			foreach (string set in set_line.Split(','))
-			{
-				string[] sets = set.Split(':');
-				switch (sets[0].Trim())
-				{
-					// 背景设置
-					case "bg":
-						option_flow_line.type = FlowData.background;
-						option_flow_line.text = sets[1];
-						break;
-					// 特效设置
-					case "ef":
-						break;
-					case "script":
-						option_flow_line.script = sets[1];
-						break;
-					case "jump":
-						option_flow_line.jump = sets[1];
-						break;
-					default:
-						option_flow_line.anima = analyze_anima(sets);
-						break;
-				}
-			}
-			if (option_flow_line.type != FlowData.background)
-			{
-				option_flow_line.type = FlowData.option;
-			}
-		}
-		return option_flow_line;
-	}
+        // option中处理包含大括号的字段
+        public static Flow SetBracesFunc2(string line)
+        {
+                // 去掉括号
+                Flow option_flow_line = new Flow{};
+                match = Regex.Match(line, @"\{([^}]+)\}");
+                if (match.Success)
+                {
+                        string set_line = match.Groups[1].Value;
+                        foreach (string set in set_line.Split(','))
+                        {
+                                string[] sets = set.Split(':');
+                                switch (sets[0].Trim())
+                                {
+                                        // 背景设置
+                                        case "bg":
+                                                option_flow_line.type = FlowData.background;
+                                                option_flow_line.text = sets[1];
+                                                break;
+                                                // 特效设置
+                                        case "ef":
+                                                break;
+                                        case "script":
+                                                option_flow_line.script = sets[1];
+                                                break;
+                                        case "jump":
+                                                option_flow_line.jump = sets[1];
+                                                break;
+                                        default:
+                                                option_flow_line.anima = AnalyzeAnima(sets);
+                                                break;
+                                }
+                        }
+                        if (option_flow_line.type != FlowData.background)
+                        {
+                                option_flow_line.type = FlowData.option;
+                        }
+                }
+                return option_flow_line;
+        }
 
-	static bool end_line()
-	{
-		bool flag = false;
-		if (line == null)
-		{
-			if (flow_line.type == FlowData.option)
-			{
-				flow_line.option = set_option;
-				new_datas.Add(flow_line);
-				new_datas.Add(new Flow { });
-			}
-			flag = true;
-		}
-		return flag;
-	}
+        static bool EndLine()
+        {
+                bool flag = false;
+                if (line == null)
+                {
+                        if (flow_line.type == FlowData.option)
+                        {
+                                flow_line.option = set_option;
+                                new_datas.Add(flow_line);
+                                new_datas.Add(new Flow{});
+                        }
+                        flag = true;
+                }
+                return flag;
+        }
 
-	// 分析符号部分
-	static string analyze_symbols(string line, StreamReader reader)
-	{
-		while (line != null &&
-				(line.Trim() == "" || line.StartsWith("'''") || line.StartsWith("#") || line.StartsWith("[") || line.StartsWith("@"))
-		)
-		{
-			// 处理中括号部分
-			if (line.StartsWith("["))
-			{
-				if (flow_line.type == FlowData.option)
-				{
-					flow_line.option = set_option;
-					new_datas.Add(flow_line);
-					new_datas.Add(new Flow { });
-				}
-				match = Regex.Match(line, @"\[([^\]]*)\]");
-				flow_line.type = match.Groups[1].Value;
-				if (flow_line.type == FlowData.option)
-				{
-					set_option = new List<string>();
-				}
-			}
-			// 处理块注释
-			if (line.StartsWith("'''"))
-			{
-				line = reader.ReadLine();
-				while (!line.Contains("'''") && line != null)
-				{
-					line = reader.ReadLine();
-				}
-			}
-			// 设置跳转标志
-			if (line.StartsWith("@"))
-			{
-				flow_line.jptr = line.Substring(1).Trim();
-				//print(flow_line);
-			}
-			// 获取新line
-			line = reader.ReadLine();
-		}
-		return line;
-	}
+        // 分析符号部分
+        static string AnalyzeSymbols(string line, StreamReader reader)
+        {
+                while (line != null && 
+                                (line.Trim() == "" || line.StartsWith("'''") || line.StartsWith("#") || line.StartsWith("[") || line.StartsWith("@"))
+                      )
+                {
+                        // 处理中括号部分
+                        if (line.StartsWith("["))
+                        {
+                                if (flow_line.type == FlowData.options)
+                                {
+                                        flow_line.option = set_option;
+                                        new_datas.Add(flow_line);
+                                        new_datas.Add(new Flow{});
+                                }
+                                match = Regex.Match(line,  @"\[([^\]]*)\]");
+                                flow_line.type = match.Groups[1].Value;
+                                if (flow_line.type == FlowData.options)
+                                {
+                                        set_option = new List<string>();
+                                }
+                        }
+                        // 处理块注释
+                        if (line.StartsWith("'''"))
+                        {
+                                line = reader.ReadLine();
+                                while (!line.Contains("'''") && line != null)
+                                {
+                                        line = reader.ReadLine();
+                                }
+                        }
+                        // 设置跳转标志
+                        if (line.StartsWith("@"))
+                        {
+                                flow_line.jptr = line.Substring(1).Trim();
+                                //print(flow_line);
+                        }
+                        // 获取新line
+                        line = reader.ReadLine();
+                }
+                return line;
+        }
 
-	// 识别立绘部分字段, 生成立绘参数
-	static Anima analyze_anima(string[] sets)
-	{
-		string[] animas = sets[1].Split("-");
-		string[] anima_position = animas[1].Split("x");
-		Anima anima = new Anima
-		{
-			type = sets[0],
-			name = animas[0],
-			position = new Vector2(int.Parse(anima_position[0]), int.Parse(anima_position[1])),
-			scale = float.Parse(animas[2]),
-		};
-		if (animas.Length > 3)
-		{
-			anima.state = animas[3];
-		}
-		return anima;
-	}
+        // 识别立绘部分字段, 生成立绘参数
+        static Anima AnalyzeAnima(string[] sets)
+        {
+                string[] animas = sets[1].Split("-");
+                string[] anima_position = animas[1].Split("x");
+                Anima anima = new Anima{
+                        type = sets[0],
+                        name = animas[0],
+                        position = new Vector2(int.Parse(anima_position[0]), int.Parse(anima_position[1])),
+                        scale = float.Parse(animas[2]),
+                };
+                if (animas.Length > 3)
+                {
+                        anima.state = animas[3];
+                }
+                return anima;
+        }
 }

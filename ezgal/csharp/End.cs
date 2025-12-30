@@ -4,12 +4,13 @@ using System;
 public partial class End : Control
 {
 	[Export]
-	AudioStreamPlayer Music { get; set; }
+	private AudioStreamPlayer _musicNode;
 	[Export]
-	TextureRect EndTexture { get; set; }
+	private Sprite2D _endTextureNode;
+
 	public override void _Ready()
 	{
-		Tools.SetTexture(EndTexture, "end_texture");
+		Tools.SetTexture(_endTextureNode, "end_texture");
 	}
 
 	public override void _Process(double delta)

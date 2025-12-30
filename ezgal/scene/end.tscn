@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://bcta2oa07x3a3"]
 
 [ext_resource type="Theme" uid="uid://dps3t0y1voqpb" path="res://theme/game.tres" id="1_osy0p"]
-[ext_resource type="Script" uid="uid://8eo6gg62ynjn" path="res://code/End.cs" id="2_u4okq"]
+[ext_resource type="Script" uid="uid://8eo6gg62ynjn" path="res://csharp/End.cs" id="2_u4okq"]
 [ext_resource type="AudioStream" uid="uid://bm4afv0vqlbbu" path="res://sounds/思念,交织于世界彼端.mp3" id="3_xdgq8"]
 
-[node name="End" type="Control" node_paths=PackedStringArray("Music", "EndTexture")]
+[node name="End" type="Control" node_paths=PackedStringArray("_musicNode", "_endTextureNode")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,17 +15,13 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_osy0p")
 script = ExtResource("2_u4okq")
-Music = NodePath("Music")
-EndTexture = NodePath("Endtexture")
+_musicNode = NodePath("Music")
+_endTextureNode = NodePath("Endtexture")
 
-[node name="Endtexture" type="TextureRect" parent="."]
+[node name="Endtexture" type="Sprite2D" parent="."]
 z_index = -1
-layout_mode = 0
-offset_left = 768.0
-offset_top = 432.0
-offset_right = 768.0
-offset_bottom = 432.0
 scale = Vector2(1.5, 1.5)
+centered = false
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_xdgq8")
