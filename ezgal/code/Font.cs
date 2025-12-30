@@ -15,19 +15,19 @@ public partial class Font : Control
 		dic_node = GetNode<Dictionary>("dictionary");
 		text = GetNode<RichTextLabel>("text");
 		tween = GetTree().CreateTween();
-		_hide();
+		Hide();
 	}
 	
 	// 隐藏对话框
-	public void _hide()
+	public new void Hide()
 	{
-		Hide();
+		base.Hide();
 	}
 
 	// 显示对话框
-	public void _show()
+	public new void Show()
 	{
-		Show();
+		base.Show();
 	}
 
 	// 设置对话框文本

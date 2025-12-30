@@ -95,7 +95,7 @@ public partial class Game : Control
 				Global.typeptr = data.type;
 				if (is_first)
 				{
-					Font._hide();
+					Font.Hide();
 					Bottom.Show();
 				}
 				Bottom.SetText(data.text);
@@ -114,7 +114,7 @@ public partial class Game : Control
 				Global.typeptr = data.type;
 				if (is_first)
 				{
-					Font._show();
+					Font.Show();
 					Bottom.Hide();
 					Font.SetText(data.text, false);
 				}
@@ -129,7 +129,7 @@ public partial class Game : Control
 				Global.intptr++;
 				break;
 			case FlowData.options:
-				Font._hide();
+				Font.Hide();
 				Bottom.Hide();
 				Options.SetOption(data.option);
 				break;

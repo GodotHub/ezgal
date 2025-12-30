@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://baf8vr7xo62q3"]
+
+[ext_resource type="Theme" uid="uid://dps3t0y1voqpb" path="res://theme/game.tres" id="1_qy84i"]
+[ext_resource type="Script" uid="uid://cjt4ij7jpbx7m" path="res://code/Game.cs" id="2_0rbr3"]
+[ext_resource type="PackedScene" uid="uid://chp7chxgsnago" path="res://scene/history/bottom.tscn" id="3_65dk4"]
+[ext_resource type="PackedScene" uid="uid://c1iq24b0yl10y" path="res://scene/font.tscn" id="4_ygl5p"]
+[ext_resource type="PackedScene" uid="uid://b76hqjcnewbyk" path="res://scene/options.tscn" id="5_x84ac"]
+
+[node name="Game" type="Control" node_paths=PackedStringArray("Background", "Bottom", "Font", "Options")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_qy84i")
+script = ExtResource("2_0rbr3")
+Background = NodePath("Background")
+Bottom = NodePath("Bottom")
+Font = NodePath("Font")
+Options = NodePath("Options")
+EndScenePath = "res://scene/end.tscn"
+
+[node name="Background" type="TextureRect" parent="."]
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="Bottom" parent="." instance=ExtResource("3_65dk4")]
+layout_mode = 0
+
+[node name="History" parent="Bottom" index="4" node_paths=PackedStringArray("Game")]
+Game = NodePath("../..")
+
+[node name="Font" parent="." instance=ExtResource("4_ygl5p")]
+layout_mode = 0
+
+[node name="Options" parent="." instance=ExtResource("5_x84ac")]
+layout_mode = 0
+
+[connection signal="StartGame" from="Bottom" to="." method="_on_bottom_start_game"]
+[connection signal="StartGame" from="Font" to="." method="_on_font_start_game"]
+
+[editable path="Bottom"]

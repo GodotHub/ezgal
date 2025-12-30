@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://chp7chxgsnago"]
+
+[ext_resource type="PackedScene" uid="uid://ralyvqrt8kex" path="res://scene/bottom.tscn" id="1_1i63t"]
+[ext_resource type="Script" uid="uid://c4hw4j07exxn4" path="res://code/History.cs" id="2_rs6yc"]
+
+[node name="Bottom" instance=ExtResource("1_1i63t")]
+
+[node name="HistoryText" type="RichTextLabel" parent="." index="3"]
+visible = false
+layout_mode = 0
+offset_left = 51.0
+offset_top = 636.0
+offset_right = 1476.0
+offset_bottom = 826.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="History" type="Button" parent="." index="4" node_paths=PackedStringArray("TextLabel", "HistoryTextLabel", "NameLabel")]
+layout_mode = 0
+offset_left = 1426.0
+offset_top = 585.0
+offset_right = 1502.0
+offset_bottom = 625.0
+toggle_mode = true
+text = "历史"
+script = ExtResource("2_rs6yc")
+TextLabel = NodePath("../Text")
+HistoryTextLabel = NodePath("../HistoryText")
+NameLabel = NodePath("../Name")
+
+[node name="Control" type="Control" parent="." index="6"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
