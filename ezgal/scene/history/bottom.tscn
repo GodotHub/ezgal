@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://chp7chxgsnago"]
 
 [ext_resource type="PackedScene" uid="uid://ralyvqrt8kex" path="res://scene/bottom.tscn" id="1_1i63t"]
-[ext_resource type="Script" uid="uid://c4hw4j07exxn4" path="res://code/History.cs" id="2_rs6yc"]
+[ext_resource type="Script" uid="uid://c4hw4j07exxn4" path="res://csharp/Game/History.cs" id="2_rs6yc"]
 
 [node name="Bottom" instance=ExtResource("1_1i63t")]
 

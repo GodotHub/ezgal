@@ -1,12 +1,12 @@
 [gd_scene load_steps=6 format=3 uid="uid://baf8vr7xo62q3"]
 
 [ext_resource type="Theme" uid="uid://dps3t0y1voqpb" path="res://theme/game.tres" id="1_qy84i"]
-[ext_resource type="Script" uid="uid://cjt4ij7jpbx7m" path="res://code/Game.cs" id="2_0rbr3"]
+[ext_resource type="Script" uid="uid://cjt4ij7jpbx7m" path="res://csharp/Game/Game.cs" id="2_0rbr3"]
 [ext_resource type="PackedScene" uid="uid://chp7chxgsnago" path="res://scene/history/bottom.tscn" id="3_65dk4"]
 [ext_resource type="PackedScene" uid="uid://c1iq24b0yl10y" path="res://scene/font.tscn" id="4_ygl5p"]
 [ext_resource type="PackedScene" uid="uid://b76hqjcnewbyk" path="res://scene/options.tscn" id="5_x84ac"]
 
-[node name="Game" type="Control" node_paths=PackedStringArray("Background", "Bottom", "Font", "Options")]
+[node name="Game" type="Control" node_paths=PackedStringArray("_backgroundNode", "BottomScene", "FontScene", "OptionsScene")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,21 +15,14 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_qy84i")
 script = ExtResource("2_0rbr3")
-Background = NodePath("Background")
-Bottom = NodePath("Bottom")
-Font = NodePath("Font")
-Options = NodePath("Options")
+_backgroundNode = NodePath("Background")
+BottomScene = NodePath("Bottom")
+FontScene = NodePath("Font")
+OptionsScene = NodePath("Options")
 EndScenePath = "res://scene/end.tscn"
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="Sprite2D" parent="."]
 z_index = -2
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-expand_mode = 1
 
 [node name="Bottom" parent="." instance=ExtResource("3_65dk4")]
 layout_mode = 0
