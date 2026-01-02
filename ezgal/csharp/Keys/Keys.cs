@@ -16,19 +16,7 @@ public partial class Keys : Control
 	
 	private static ColorRect _backgroundNode;
 	private static History _historyScene;
-	/*
-	[Export]
-	public Game Game { get; set; }
-
-	[Export]
-	public RichTextLabel TextLabel { get; set; }
-
-	[Export]
-	public RichTextLabel HistoryTextLabel { get; set; }
-
-	[Export]
-	public Label NameLabel { get; set; }
-	*/
+	
 	public override void _Ready()
 	{
 		_backgroundNode = GetNode<ColorRect>("Background");
