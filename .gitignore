@@ -5,7 +5,6 @@ make/Make.exe
 make/Make
 make/make.sln
 bin/
-test/
 
 # Godot 4+ specific ignores
 ezgal/.godot/
@@ -30,4 +29,4 @@ ezgal/mono_crash.*.json
 ezgal/.idea/
 ezgal/.vscode/
 ezgal/libaries/
-ezgal/.vscode
+ezgal/.vscode/
