@@ -31,10 +31,6 @@ on:
       - '**.gdshader'
       - '!cmd/tools/builders/**.v'
 
-concurrency:
-  group: linux-${{ github.workflow }}-${{ github.ref == 'refs/heads/master' && github.sha || github.ref }}
-  cancel-in-progress: true
-
 jobs:
   tcc-linux:
     name: Test Runner
@@ -44,11 +40,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         
-      - name: Setup V language
-        uses: sleeyax/vlang-action@v1
-        with:
-          version: latest
-          
+      - name: Install V language
+        run: |
+          git clone https://github.com/vlang/v
+          cd v
+          make
+          sudo ./v symlink
+          v version
+
       - name: Run tests
         run: |
           cd ./test
