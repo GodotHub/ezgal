@@ -4,13 +4,14 @@
 [ext_resource type="PackedScene" uid="uid://tha40r6iwp2i" path="res://scene/Keys/History.tscn" id="2_oh7sh"]
 [ext_resource type="PackedScene" uid="uid://c6f15wney1tmd" path="res://scene/Keys/Technical.tscn" id="3_2vg48"]
 
-[node name="Keys" type="Control" node_paths=PackedStringArray("TechnicalScene", "_historyNode", "_settingsNode", "_boxContainerNode")]
+[node name="Keys" type="Control" node_paths=PackedStringArray("TechnicalScene", "_backNode", "_historyNode", "_settingsNode", "_boxContainerNode")]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_2vg48")
 TechnicalScene = NodePath("Background/Technical")
+_backNode = NodePath("Background/Back")
 _historyNode = NodePath("BoxContainer/History")
-_settingsNode = NodePath("BoxContainer/Settings")
+_settingsNode = NodePath("BoxContainer/Setting")
 _boxContainerNode = NodePath("BoxContainer")
 metadata/_edit_vertical_guides_ = [1506.0]
 metadata/_edit_horizontal_guides_ = [804.0]
@@ -27,7 +28,7 @@ visible = false
 layout_mode = 0
 _keysScene = NodePath("../..")
 
-[node name="History" parent="Background" instance=ExtResource("2_oh7sh")]
+[node name="History" parent="Background" node_paths=PackedStringArray("_keysScene") instance=ExtResource("2_oh7sh")]
 visible = false
 layout_mode = 0
 anchors_preset = 0
@@ -37,6 +38,16 @@ offset_right = 1.0
 offset_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
+_keysScene = NodePath("../..")
+
+[node name="Back" type="Button" parent="Background"]
+visible = false
+layout_mode = 0
+offset_left = 1305.0
+offset_top = 776.0
+offset_right = 1479.0
+offset_bottom = 833.0
+text = "返回"
 
 [node name="BoxContainer" type="BoxContainer" parent="."]
 layout_mode = 1
@@ -48,6 +59,6 @@ theme_override_constants/separation = 14
 layout_mode = 2
 text = "历史"
 
-[node name="Settings" type="Button" parent="BoxContainer"]
+[node name="Setting" type="Button" parent="BoxContainer"]
 layout_mode = 2
 text = "设置"

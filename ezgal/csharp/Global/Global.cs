@@ -124,7 +124,7 @@ public partial class Global : Node
 		keysScene.BackgroundPressed("Technical");
 		Technical technicalScene = keysScene.TechnicalScene as Technical;
 		technicalScene.SetSelf(keysScene);
-		if (FlowData.dicdata.Count == 0)
+		if (FlowData.Techdata.Count == 0)
 		{
 			try
 			{
@@ -143,7 +143,7 @@ public partial class Global : Node
 		{
 			try
 			{
-				string textdata = FlowData.dicdata.FirstOrDefault(x => x.file == $"{fileName}.txt").data;
+				string textdata = FlowData.Techdata.FirstOrDefault(x => x.file == $"{fileName}.txt").data;
 				technicalScene.TextNode.Text = textdata;
 			}
 			catch

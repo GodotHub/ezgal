@@ -2,12 +2,13 @@
 
 [ext_resource type="Script" uid="uid://x14xkrcc3ylw" path="res://csharp/Keys/Technical.cs" id="1_ik6g3"]
 
-[node name="Technical" type="Control" node_paths=PackedStringArray("TextNode")]
+[node name="Technical" type="Control" node_paths=PackedStringArray("_vBoxContainerNode", "TextNode")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1536.0
 offset_bottom = 864.0
 script = ExtResource("1_ik6g3")
+_vBoxContainerNode = NodePath("ScrollContainer/VBoxContainer")
 TextNode = NodePath("Text")
 metadata/_edit_horizontal_guides_ = [750.0]
 metadata/_edit_vertical_guides_ = [1486.0, 349.0]
@@ -21,14 +22,6 @@ offset_bottom = 750.0
 bbcode_enabled = true
 scroll_active = false
 
-[node name="Button" type="Button" parent="."]
-layout_mode = 0
-offset_left = 1305.0
-offset_top = 776.0
-offset_right = 1479.0
-offset_bottom = 833.0
-text = "返回"
-
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
 offset_right = 349.0
@@ -41,15 +34,4 @@ size_flags_horizontal = 6
 size_flags_vertical = 2
 theme_override_constants/separation = 30
 
-[node name="Button" type="Button" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "文字信息"
-
-[node name="Button2" type="Button" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "bbcode编码"
-
 [connection signal="meta_clicked" from="Text" to="." method="_on_text_meta_clicked"]
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/Button2" to="." method="_on_button_pressed"]

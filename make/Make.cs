@@ -9,7 +9,7 @@ public class Make
 	// 读取文件地址
 	public static string read_file_path = "./ezgal/script";
 	// 读取字典地址
-	public static string dict_file_path = "./ezgal/dictionary";
+	public static string dict_file_path = "./ezgal/technical";
 	// 代码存储地址
 	public static string save_file_path = "./ezgal/csharp/Global/FlowData.cs";
 	// 程序控制文本
@@ -158,7 +158,7 @@ public class Make
 		return_file_data += print_init("dict");
 		foreach (string file in Directory.GetFiles(dict_file_path))
 		{
-			return_file_data += print_dictionary(file);
+			return_file_data += print_technical(file);
 		}
 		return_file_data += "\t};\n";
 		return_file_data += print_init("out");
@@ -217,11 +217,11 @@ public class Make
 				break;
 			case "dict":
 				return_file_data += "\n";
-				return_file_data += "\tpublic struct DicData{\n";
+				return_file_data += "\tpublic struct TechData{\n";
 				return_file_data += "\t\tpublic string file;\n";
 				return_file_data += "\t\tpublic string data;\n";
 				return_file_data += "\t}\n";
-				return_file_data += "\tpublic static List<DicData> dicdata = new List<DicData>{\n";
+				return_file_data += "\tpublic static List<TechData> Techdata = new List<TechData>{\n";
 				break;
 			case "out":
 				return_file_data += "}\n";
@@ -247,10 +247,10 @@ public class Make
 		return return_file_data;
 	}
 
-	public static string print_dictionary(string file)
+	public static string print_technical(string file)
 	{
 		string return_file_data = "";
-		return_file_data += "\t\tnew DicData{\n";
+		return_file_data += "\t\tnew TechData{\n";
 		return_file_data += $"\t\t\tfile = $34${Path.GetFileName(file)}$34$,\n";
 		return_file_data += $"\t\t\tdata = $34${NewLines(File.ReadAllText(file))}$34$,\n";
 		return_file_data += "\t\t},\n";

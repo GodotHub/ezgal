@@ -18,9 +18,9 @@ public partial class FlowData : Node
 
 	public static List<FileData> flowdata = new List<FileData>();
 
-	public struct DicData{
+	public struct TechData{
 		public string file;
 		public string data;
 	}
-	public static List<DicData> dicdata = new List<DicData>();
+	public static List<TechData> Techdata = new List<TechData>();
 }

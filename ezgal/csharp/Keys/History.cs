@@ -4,12 +4,15 @@ using System.Collections.Generic;
 
 public partial class History : RichTextLabel
 {
+	[Export]
+	private Keys _keysScene;
 	private int left = 30;
 	private int top = 60;
 	private string type;
 
 	public override void _Ready()
 	{
+		MetaClicked += OnMetaClicked;
 		Position = new Vector2(
 				left, top
 				);
@@ -19,6 +22,10 @@ public partial class History : RichTextLabel
 				);
 	}
 
+	public void OnMetaClicked(Variant meta)
+	{
+		Global.LoadTechnical(_keysScene, meta);
+	}
 	// load Datas's text.
 	/* todo: 
 	/* 	1.应该优化一下剧本实现模式，以章节进行区分，不然实现多个剧本时容易撑爆历史记录.

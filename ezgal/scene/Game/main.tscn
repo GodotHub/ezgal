@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://cp6isjvvcti2v"]
 
-[ext_resource type="Script" uid="uid://k3k88k0t7x1x" path="res://csharp/Main/Main.cs" id="1_pum5v"]
+[ext_resource type="Script" uid="uid://k3k88k0t7x1x" path="res://csharp/Main/Main.cs" id="1_hqvfu"]
 [ext_resource type="Shader" uid="uid://ba5gn7qufqwws" path="res://shader/闪烁.gdshader" id="3_lrosg"]
 [ext_resource type="Theme" uid="uid://bagh4xaumjcdf" path="res://theme/UI.tres" id="4_3mxyr"]
 [ext_resource type="Script" uid="uid://d211kkumcomlp" path="res://csharp/Main/MainControl.cs" id="5_b5f6u"]
@@ -22,7 +22,7 @@ shader_parameter/max_alpha = 1.0
 shader = ExtResource("5_vil18")
 
 [node name="Main" type="Node2D" node_paths=PackedStringArray("_startTextureNode", "_cpuParticles2DNode", "_musicNode", "_soundsNode", "_boxContainer")]
-script = ExtResource("1_pum5v")
+script = ExtResource("1_hqvfu")
 _startTextureNode = NodePath("StartTexture")
 _cpuParticles2DNode = NodePath("CPUParticles2D")
 _musicNode = NodePath("Music")
@@ -132,6 +132,10 @@ text = "读取存档"
 [node name="Technical" type="Button" parent="Menu/BoxContainer"]
 layout_mode = 2
 text = "字	         典"
+
+[node name="Gallery" type="Button" parent="Menu/BoxContainer"]
+layout_mode = 2
+text = "图         集"
 
 [node name="Config" type="Button" parent="Menu/BoxContainer"]
 layout_mode = 2

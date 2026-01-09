@@ -1,17 +1,21 @@
 using Godot;
 using System;
+using System.IO;
 
 public partial class Technical : Control
 {
 	[Export]
 	private Keys _keysScene;
 	[Export]
+	private VBoxContainer _vBoxContainerNode;
+	[Export]
 	public RichTextLabel TextNode { get; set; }
-	
+
 	private Keys _self;
 
 	public override void _Ready()
 	{
+		SetTechDataName();
 		Hide();
 	}
 
@@ -23,11 +27,11 @@ public partial class Technical : Control
 	}
 
 	/* 显示对话框
-	public new void Show()
-	{
-		base.Show();
-	}
-	*/
+	   public new void Show()
+	   {
+	   base.Show();
+	   }
+	   */
 
 	public void SetSelf(Keys keysScene)
 	{
@@ -39,8 +43,35 @@ public partial class Technical : Control
 		Global.LoadTechnical(_self, meta);
 	}
 
-	public void _on_button_pressed()
+	public void OnButtonPressed(string text)
 	{
-		_keysScene.BackgroundPressed("Technical");
+		Global.KeysState = null;
+		Global.LoadTechnical(_self, text);
+	}
+
+	private void SetTechDataName()
+	{
+		if (FlowData.Techdata.Count == 0)
+		{
+			foreach (FlowData.TechData data in FlowData.Techdata)
+			{
+				SetLabel(data.file);
+			}
+			return;
+		}
+
+		string[] files = Directory.GetFiles("./technical/");
+		foreach (string file in files)
+		{
+			SetLabel(file);
+		}
+	}
+
+	private void SetLabel(string name)
+	{
+		Button buttonNode = new Button();
+		buttonNode.Text = Path.GetFileNameWithoutExtension(name);
+		_vBoxContainerNode.AddChild(buttonNode);
+		buttonNode.Pressed += () => OnButtonPressed(buttonNode.Text);
 	}
 }
