@@ -36,8 +36,6 @@ public partial class Bottom : Control
 		if (dialog.Size == new Vector2(Global.window_width, 0))
 		{
 			tween = GetTree().CreateTween();
-			_soundsNode.Play();
-			tween.Finished += OnTweenFinished;
 			tween.TweenProperty(dialog, "size", new Vector2(Global.window_width, 292), 0.3f);
 		}
 		base.Show();
@@ -49,6 +47,8 @@ public partial class Bottom : Control
 		text.Text = $"{text_data} »";
 		text.VisibleRatio = 0.0f;
 		tween = GetTree().CreateTween();
+		tween.Finished += OnTweenFinished;
+		_soundsNode.Play();
 		tween.TweenProperty(text, "visible_ratio", 1.0f, Tools.RemoveBBCode(text_data).Length * Global.text_speed);
 	}
 

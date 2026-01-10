@@ -78,6 +78,7 @@ public partial class Global : Node
 	 * This is for code inspection. Don't modify it, damn it!
 	 * 这是检查代码用的，别改了，敲你喵！
 	 * これはコードチェック用なんだから、変更しないでくれよ、クソが！
+	 */
 	 public static void print(Flow new_data)
 	 {
 	 GD.Print($"Round ptr:{intptr}");
@@ -95,7 +96,6 @@ public partial class Global : Node
 	 GD.Print($"state	:{new_data.anima.state}");
 	 GD.Print("----------------------");
 	 }
-	 */
 
 	public static bool IsEmpty<T>(T structure) where T : struct
 	{
@@ -108,11 +108,11 @@ public partial class Global : Node
 		if (FlowData.flowdata.Count == 0)
 		{
 			try {
-				return ReadFile($"./script/{path}");
+				return ReadFile(path);
 			}
 			catch
 			{
-				GD.PrintErr($"Not found Path: ./script/{path}");
+				GD.PrintErr($"Not found Path: {path}");
 				return new List<Flow>();
 			}
 		}
@@ -158,7 +158,7 @@ public partial class Global : Node
 	{
 		read_file_name = path;
 		flow_line = new Flow{};
-		using (StreamReader reader = new StreamReader(path))
+		using (StreamReader reader = new StreamReader($"./script/{path}"))
 		{
 			new_datas = new List<Flow>();
 			while ((line = reader.ReadLine()) != null)

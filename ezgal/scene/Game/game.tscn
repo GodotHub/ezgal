@@ -23,7 +23,7 @@ FontScene = NodePath("Font")
 OptionsScene = NodePath("Options")
 _musicNode = NodePath("Music")
 _dubbingNode = NodePath("Dubbing")
-EndScenePath = "res://scene/end.tscn"
+EndScenePath = "res://scene/Game/end.tscn"
 
 [node name="Background" type="Sprite2D" parent="."]
 z_index = -2
