@@ -23,12 +23,14 @@ def process_dir(dir_path, old, new):
 
 replace_data = [
     # Dictionary ( Godot.Dictionary ) -> Technical.
-    ("dictionary", "technical"),
-    ("Dictionary", "Technical"),
-    ("dicdata", "Techdata"),
-    ("Dicdata", "Techdata"),
-    ("dicData", "techData"),
-    ("DicData", "TechData"),
+    #("dictionary", "technical"),
+    #("Dictionary", "Technical"),
+    #("dicdata", "Techdata"),
+    #("Dicdata", "Techdata"),
+    #("dicData", "techData"),
+    #("DicData", "TechData"),
+    #("SetBracesFunc2", "SetOptionBracesFunc"),
+    #("SetBracesFunc1", "SetBracesFunc"),
         ]
 
 for i in replace_data:

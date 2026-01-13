@@ -144,7 +144,17 @@ public partial class ToolsInit : Node
 {
 	public static string FindInitJsonType(string scene, string node, string key)
 	{
+
 		return "0";
 	}
 
 }
+
+public partial class LoadGame : Node
+{
+	public static void SaveGame()
+	{
+	}
+
+}
+

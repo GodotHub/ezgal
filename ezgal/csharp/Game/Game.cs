@@ -34,10 +34,14 @@ public partial class Game : Control
 	// 设置背景图片
 	private void SetBackground(string path)
 	{
+		if (path == null) {
+			return;
+		}
 		var texture = Tools.LoadImage($"./image/background/{path}") as Texture2D;
 		if (texture == null)
 		{
 			GD.PrintErr($"`./image/background/` Failed to load `{path}`.");
+			return;
 		}
 		else
 		{
@@ -95,11 +99,11 @@ public partial class Game : Control
 		// 类型判断与处理
 		switch (data.type)
 		{
-			case FlowData.background:
+			case FlowData.direction:
 				// 设置背景图片
-				SetBackground(data.text);
+				SetBackground(data.background);
 				Global.intptr++;
-				Run();
+				//Run();
 				break;
 			case FlowData.dialogue:
 				// 对话框更新状态
@@ -118,6 +122,7 @@ public partial class Game : Control
 				{
 					create_anima(data.anima);
 				}
+				SetBackground(data.background);
 				Global.intptr++;
 				break;
 			case FlowData.fullscreen:
@@ -137,6 +142,7 @@ public partial class Game : Control
 				{
 					create_anima(data.anima);
 				}
+				SetBackground(data.background);
 				Global.intptr++;
 				break;
 			case FlowData.options:
@@ -156,18 +162,19 @@ public partial class Game : Control
 		// 跳转
 		if (data.script != null || data.jump != null)
 		{
-			new_script(data.script, data.jump, data.type);
+			new_script(data.script, data.jump);
 		}
 	}
 
 	// 跳转到新的脚本
-	public void new_script(string file_name, string jump_ptr, string type)
+	public void new_script(string file_name, string jump_ptr)
 	{
+		// no file_name.
 		if (file_name == null)
 		{
 			file_name = Global.read_file_name;
 		}
-
+		
 		Datas = Datas.GetRange(0, Global.intptr);
 		List<Global.Flow> new_datas = Global.RunFile(file_name);
 
@@ -197,10 +204,7 @@ public partial class Game : Control
 				}
 			}
 		}
-		if (type == FlowData.option)
-		{
-			Run();
-		}
+		Run();
 	}
 
 	// 创建立绘节点

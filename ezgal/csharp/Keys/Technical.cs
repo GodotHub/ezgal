@@ -53,17 +53,17 @@ public partial class Technical : Control
 	{
 		if (FlowData.Techdata.Count == 0)
 		{
-			foreach (FlowData.TechData data in FlowData.Techdata)
+			string[] files = Directory.GetFiles("./technical/");
+			foreach (string file in files)
 			{
-				SetLabel(data.file);
+				SetLabel(file);
 			}
 			return;
 		}
 
-		string[] files = Directory.GetFiles("./technical/");
-		foreach (string file in files)
+		foreach (FlowData.TechData data in FlowData.Techdata)
 		{
-			SetLabel(file);
+			SetLabel(data.file);
 		}
 	}
 

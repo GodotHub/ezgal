@@ -8,7 +8,7 @@ public partial class FlowData : Node
 	public const string fullscreen = "全屏";
 	public const string options = "选项";
 	public const string option = "选择";
-	public const string background = "背景";
+	public const string direction = "演出";
 
 
 	public struct FileData{
