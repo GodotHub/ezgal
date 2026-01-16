@@ -1,26 +1,31 @@
 {
-  "start": {
-    "title": {
-      "text": "EZGal",
-      "font_color": "rgba(1.00, 0.67, 0.97, 1.00)",
-      "font_outline_color": "rgba(1.00, 1.00, 1.00, 1.00)",
-      "font_size": 100
-    },
-    "subtitle": {
-      "text": "文字冒险游戏模拟器",
-      "font_color": "rgba(0.51, 0.79, 0.34, 1.00)",
-      "font_outline_color": "rgba(1.00, 1.00, 1.00, 1.00)",
-      "font_size": 30
-    },
-    "music": {
-      "stream": "思念,交织于世界彼端.mp3",
-      "volume_db": 0.0
-    }
-  },
-  "end": {
-    "music": {
-      "stream": "思念,交织于世界彼端.mp3",
-      "volume_db": 0.0
-    }
-  }
+	"start": {
+		"title": {
+			"text": "EZGal",
+			"font_color": "rgba(1.00, 0.67, 0.97, 1.00)",
+			"font_outline_color": "rgba(1.00, 1.00, 1.00, 1.00)",
+			"font_size": 100
+		},
+		"subtitle": {
+			"text": "文字冒险游戏模拟器",
+			"font_color": "rgba(0.51, 0.79, 0.34, 1.00)",
+			"font_outline_color": "rgba(1.00, 1.00, 1.00, 1.00)",
+			"font_size": 30
+		},
+		"music": {
+			"stream": "思念,交织于世界彼端.mp3",
+			"volume_db": 0.0
+		}
+	},
+	"game": {
+		"script": {
+			"start": "start.txt"
+		}	
+	},
+	"end": {
+		"music": {
+			"stream": "思念,交织于世界彼端.mp3",
+			"volume_db": 0.0
+		}
+	}
 }

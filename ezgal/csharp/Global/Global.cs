@@ -82,7 +82,9 @@ public partial class Global : Node
 		// window size是否会改变
 		window_width = GetWindow().Size.X;
 		window_height = GetWindow().Size.Y;
-		datas = RunFile("start.txt");
+		string startPath = ToolsInit.FindInitJsonType("game", "script", "start");
+
+		datas = RunFile(startPath);
 	}
 
 	/*

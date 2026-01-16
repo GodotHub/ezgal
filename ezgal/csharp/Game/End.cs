@@ -11,7 +11,15 @@ public partial class End : Control
 	public override void _Ready()
 	{
 		Tools.SetTexture(_endTextureNode, "end_texture");
-		_musicNode.Stream = Tools.LoadAudio("./sounds/思念,交织于世界彼端.mp3");
+          	SetJson();
+	}
+
+	private void SetJson()
+	{
+		string musicPath = ToolsInit.FindInitJsonType("end", "music", "stream");
+		float musicVolumeDb = float.Parse(ToolsInit.FindInitJsonType("end", "music", "stream"));
+		_musicNode.Stream = Tools.LoadAudio($"./sounds/{musicPath}");
+		_musicNode.VolumeDb = musicVolumeDb;
 		_musicNode.Play();
 	}
 

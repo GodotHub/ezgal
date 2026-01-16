@@ -3,6 +3,7 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 public partial class Tools : Node
 {
@@ -15,6 +16,9 @@ public partial class Tools : Node
 	/// </summary> 
 	public static Texture2D LoadImage(string absolutePath)
 	{
+		if (FlowData.IsBuild) {
+			return ResourceLoader.Load<Texture2D>(absolutePath);
+		}
 		Image image = new Image();
 		Error err = image.Load(absolutePath);
 
@@ -37,6 +41,9 @@ public partial class Tools : Node
 	/// </summary>
 	public static AudioStream LoadAudio(string absolutePath)
 	{
+		if (FlowData.IsBuild) {
+			return ResourceLoader.Load<AudioStream>(absolutePath);
+		}
 		string extension = System.IO.Path.GetExtension(absolutePath).ToLower();
 		switch (extension)
 		{
@@ -134,9 +141,7 @@ public partial class Tools : Node
 	// todo: only remove like "[url]" & "[/url]", while [example] will not remove.
 	public static string RemoveBBCode(string input)
 	{
-
 		return Regex.Replace(input, @"\[\/?[^\]]+\]", "");
-
 	}
 }
 
@@ -144,17 +149,28 @@ public partial class ToolsInit : Node
 {
 	public static string FindInitJsonType(string scene, string node, string key)
 	{
-
-		return "0";
+		string jsonString = FlowData.jsonString;
+		if (!FlowData.IsBuild)
+		{
+			jsonString = System.IO.File.ReadAllText("./script/.init.json");
+		}
+		using JsonDocument doc = JsonDocument.Parse(jsonString);
+		JsonElement rootElement = doc.RootElement;
+		if (!rootElement.TryGetProperty(scene, out JsonElement sceneElement))
+			return "";
+		if (!sceneElement.TryGetProperty(node, out JsonElement nodeElement))
+			return "";
+		if (!nodeElement.TryGetProperty(key, out JsonElement keyElement))
+			return "";
+		return $"{keyElement}";
 	}
-
 }
 
 public partial class LoadGame : Node
 {
 	public static void SaveGame()
 	{
+		return;
 	}
-
 }
 

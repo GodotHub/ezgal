@@ -21,13 +21,15 @@ shader_parameter/max_alpha = 1.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8wlu8"]
 shader = ExtResource("5_vil18")
 
-[node name="Main" type="Node2D" node_paths=PackedStringArray("_startTextureNode", "_cpuParticles2DNode", "_musicNode", "_soundsNode", "_boxContainer")]
+[node name="Main" type="Node2D" node_paths=PackedStringArray("_startTextureNode", "_cpuParticles2DNode", "_musicNode", "_soundsNode", "_boxContainer", "_titleNode", "_subTitleNode")]
 script = ExtResource("1_hqvfu")
 _startTextureNode = NodePath("StartTexture")
 _cpuParticles2DNode = NodePath("CPUParticles2D")
 _musicNode = NodePath("Music")
 _soundsNode = NodePath("Sounds")
 _boxContainer = NodePath("Menu/BoxContainer")
+_titleNode = NodePath("MainControl/Title/Title")
+_subTitleNode = NodePath("MainControl/Title/Subtitle")
 metadata/_edit_vertical_guides_ = [768.0]
 
 [node name="StartTexture" type="Sprite2D" parent="."]
